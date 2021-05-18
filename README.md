@@ -6,11 +6,14 @@ Piggies are having wars, and the bad ones prizoned animals. So now try to save t
 
 ### YOUTUBE Link:
 https://youtu.be/1OFjbyesYdI
+You can only open the video through the link here!
 
 ### WebGl:
 https://yujinginging.github.io/
 (It is uploaded in the github repository: Yujinginging
 /Yujinginging.github.io)
+If you have problem clicking buttons after loading, try FULL SCREEN, then it will be fine with both full screen play mode or normal screen mode!
+#####  Every time you enter the game through this link, your play history will be cleaned and restart from beginning!
 
 ### Helps from third party/Asset:
 1. images:
