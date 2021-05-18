@@ -118,7 +118,7 @@ public class Manager : MonoBehaviour
 
         //get total star number
         int sum = 0;
-        for (int i = 1;i< total; i++)
+        for (int i = 1;i< total + 1; i++)
         {
             sum += PlayerPrefs.GetInt("level" + i.ToString());
         }
