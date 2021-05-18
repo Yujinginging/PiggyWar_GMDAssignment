@@ -4,13 +4,18 @@ using UnityEngine;
 
 public class cutepig : MonoBehaviour
 {
+    //music
+    public AudioClip select;
+    public AudioClip flyClip;
+
+
     private bool isClicked = false;
     public Transform rightPosition;
     public float maxDistance = 2;
 
     [HideInInspector]
     public SpringJoint2D springJoint2D;
-    private Rigidbody2D rigidBody2D;
+    protected Rigidbody2D rigidBody2D;
 
     //lines
     public LineRenderer rightLine;
@@ -22,26 +27,48 @@ public class cutepig : MonoBehaviour
     //
     public GameObject boom;
 
+    //use a boolean to see if the pig has flied once
+    private bool fly = true;
+
+    public float smooth = 3;//for camera follow.. smooth
+
+    //
+    private bool isFly = false;
+
+    //settings for trails
+    private TestMyTrail myTrail;
+
     private void Awake()
     {
         springJoint2D = GetComponent<SpringJoint2D>();
         rigidBody2D = GetComponent<Rigidbody2D>();
+        //get trail
+        myTrail = GetComponent<TestMyTrail>();
     }
 
     private void OnMouseDown() //press the mouse
     {
-        isClicked = true;
-        rigidBody2D.isKinematic = true;
+        if (fly)
+        {
+            //musicPlay
+            AudioPlay(select);
+            isClicked = true;
+            rigidBody2D.isKinematic = true;
+        }
     }
 
     private void OnMouseUp()
     {
-        isClicked = false;
-        rigidBody2D.isKinematic = false;
-        Invoke("Fly", 0.1f);
-        //unable line
-        rightLine.enabled = false;
-        leftLine.enabled = false;
+        if (fly)
+        {
+            isClicked = false;
+            rigidBody2D.isKinematic = false;
+            Invoke("Fly", 0.1f);
+            //unable line
+            rightLine.enabled = false;
+            leftLine.enabled = false;
+            fly = false; //disable pig fly again
+        }
     }
 
     private void Update() //
@@ -62,10 +89,31 @@ public class cutepig : MonoBehaviour
             }
             HandleLines();
         }
+
+
+        //camera follow objects
+        float posX = transform.position.x;
+        /*float smoothTime = (float) smooth * (float)Time.deltaTime;*/
+        Camera.main.transform.position = Vector3.Lerp(Camera.main.transform.position, 
+            new Vector3(Mathf.Clamp(posX,7,13),Camera.main.transform.position.y, Camera.main.transform.position.z),
+            smooth*Time.deltaTime);
+
+
+        //
+        if (isFly)
+        {
+            if (Input.GetMouseButtonDown(0))
+            {
+                ShowSpeedUpSkill();
+            }
+        }
     }
 
     void Fly()
     {
+        isFly = true;
+        AudioPlay(flyClip);
+        myTrail.PigTrailStart();  
         springJoint2D.enabled = false; //let springjoint2d disabled -> let the pig fly
         Invoke("HandleNextPigFly", 4); //wait 4s and ...
     }
@@ -91,5 +139,23 @@ public class cutepig : MonoBehaviour
         Destroy(gameObject);
         Instantiate(boom, transform.position, Quaternion.identity);
         Manager._instance.NextCuty();
+    }
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        isFly = false;
+        myTrail.ClearPigTrail();
+    }
+
+    //
+    public void AudioPlay(AudioClip clip)
+    {
+        AudioSource.PlayClipAtPoint(clip, transform.position);
+    }
+
+    //skill of special pig who is able to speed up when press during flying
+    public virtual void ShowSpeedUpSkill()
+    {
+        isFly = false;
     }
 }

@@ -1,0 +1,16 @@
+{
+"companyName": "JIngJIng",
+"productName": "PiggyWar",
+"productVersion": "1.1",
+"dataUrl": "PiggyWar_webFinal.data.unityweb",
+"wasmCodeUrl": "PiggyWar_webFinal.wasm.code.unityweb",
+"wasmFrameworkUrl": "PiggyWar_webFinal.wasm.framework.unityweb",
+"graphicsAPI": ["WebGL 2.0","WebGL 1.0"],
+"webglContextAttributes": {"preserveDrawingBuffer": false},
+"splashScreenStyle": "Dark",
+"backgroundColor": "#231F20",
+"cacheControl": {"default": "must-revalidate"},
+"developmentBuild": false,
+"multithreading": false,
+"unityVersion": "2019.4.19f1c1"
+}
